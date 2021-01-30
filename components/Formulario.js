@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
-const Formulario = () => {
+import Alert from './Alert';
+const Formulario = ({ moneda, setMoneda, criptomoneda, setCriptoMoneda, error, setError }) => {
     //#region DEFINICION DE STATES
-    const [moneda, setMoneda] = useState('');
-    const [criptomoneda, setCriptoMoneda] = useState('');
-    const [criptomonedasAPI, setCriptoMonedasAPI] = useState('');
+    const [criptomonedasAPI, setCriptoMonedasAPI] = useState([]);
+    const [mensaje, setMensaje] = useState('');
     //#endregion
 
     //#region USE Effect
@@ -21,7 +21,6 @@ const Formulario = () => {
     }, []);
     //#endregion
 
-
     //#region FUNCIONES
     const obtenerMoneda = moneda => {
         setMoneda(moneda);
@@ -29,9 +28,29 @@ const Formulario = () => {
     const obtenerCriptoMoneda = criptomoneda => {
         setCriptoMoneda(criptomoneda);
     }
+    const cotizarPrecio = () => {
+        console.log('Cotizandoo...');
+        //Validacion
+        if (moneda.trim() === '' || criptomoneda.trim() === '') {
+            setError(true)
+            setMensaje('Ambos campos son obligatorios')
+        }
+        else {
+            setError(false)
+        }
+    }
+
     //#endregion
     return (
         <View>
+            {error
+                ?
+                <Alert
+                    mensaje={mensaje}
+                />
+                :
+                null
+            }
             <Text style={styles.label}>Moneda</Text>
             <Picker
                 selectedValue={moneda}
@@ -46,7 +65,10 @@ const Formulario = () => {
             </Picker>
 
             <Text style={styles.label}>Criptomoneda</Text>
-            <Picker>
+            <Picker
+                selectedValue={criptomoneda}
+                onValueChange={cripto => obtenerCriptoMoneda(cripto)}
+            >
                 <Picker.Item label="- Seleccione una -" value="" />
                 {criptomonedasAPI.map(cripto => (
                     <Picker.Item
@@ -56,6 +78,14 @@ const Formulario = () => {
                     />
                 ))}
             </Picker>
+            <TouchableHighlight
+                style={styles.btnCotizar}
+                onPress={() => cotizarPrecio()}
+            >
+                <Text
+                    style={styles.txtCotizar}
+                >Cotizar</Text>
+            </TouchableHighlight>
         </View >
     );
 }
@@ -64,6 +94,18 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontFamily: 'Lato-Black',
         marginVertical: 20,
-    }
+    },
+    btnCotizar: {
+        marginTop: 15,
+        width: '100%',
+        padding: 10,
+        borderRadius: 4,
+        backgroundColor: '#5e49e2',
+    },
+    txtCotizar: {
+        color: '#fff',
+        fontSize: 18,
+        textAlign: 'center',
+    },
 });
 export default Formulario;
