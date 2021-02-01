@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import Alert from './Alert';
-const Formulario = ({ moneda, setMoneda, criptomoneda, setCriptoMoneda, error, setError }) => {
+const Formulario = ({ moneda, setMoneda, criptomoneda, setCriptoMoneda, error, setError, setConsultarAPI }) => {
     //#region DEFINICION DE STATES
     const [criptomonedasAPI, setCriptoMonedasAPI] = useState([]);
     const [mensaje, setMensaje] = useState('');
@@ -29,15 +29,16 @@ const Formulario = ({ moneda, setMoneda, criptomoneda, setCriptoMoneda, error, s
         setCriptoMoneda(criptomoneda);
     }
     const cotizarPrecio = () => {
-        console.log('Cotizandoo...');
         //Validacion
         if (moneda.trim() === '' || criptomoneda.trim() === '') {
             setError(true)
             setMensaje('Ambos campos son obligatorios')
+            return;
         }
-        else {
-            setError(false)
-        }
+
+        setConsultarAPI(true);
+        setError(false);
+
     }
 
     //#endregion

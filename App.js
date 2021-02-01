@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import Header from './components/Header';
 import Formulario from './components/Formulario';
 import axios from 'axios';
@@ -8,14 +8,22 @@ const App = () => {
   const [moneda, setMoneda] = useState('');
   const [criptomoneda, setCriptoMoneda] = useState('');
   const [error, setError] = useState(false);
+  const [consultarAPI,setConsultarAPI] = useState(false);
 
   //#endregion
   //#region USE EFFECT
   useEffect(() => {
-    if (error) {
-      const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR`;
+    const cotizarCriptomoneda = async () =>{
+      if (consultarAPI) {
+      //consultar la api para obtener la cotizacion
+        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
+        const respuesta = await axios.get(url);
+        console.log(respuesta.data.DISPLAY);
+        setConsultarAPI(false);
+      }
     }
-  }, [error])
+    cotizarCriptomoneda();
+  }, [consultarAPI])
   //#endregion 
 
 
@@ -34,6 +42,7 @@ const App = () => {
           setCriptoMoneda={setCriptoMoneda}
           error={error}
           setError={setError}
+          setConsultarAPI={setConsultarAPI}
         />
       </View>
     </>
