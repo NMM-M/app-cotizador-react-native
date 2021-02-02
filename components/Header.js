@@ -10,6 +10,8 @@ const Header = () => {
 
 const styles = StyleSheet.create({
     encabezado: {
+        marginTop: 10,
+        marginHorizontal: '1.5%',
         fontSize: 20,
         color: '#fff',
         paddingTop: Platform.OS === 'ios' ? 50 : 10,
@@ -18,7 +20,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#5e49e2',
         paddingVertical: 10,
         textTransform: 'uppercase',
-        marginBottom: 30
+        marginBottom: 30,
+        borderRadius: 4,
     },
 });
 

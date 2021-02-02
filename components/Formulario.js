@@ -54,6 +54,7 @@ const Formulario = ({ moneda, setMoneda, criptomoneda, setCriptoMoneda, error, s
             }
             <Text style={styles.label}>Moneda</Text>
             <Picker
+                style={styles.picker}
                 selectedValue={moneda}
                 onValueChange={moneda => obtenerMoneda(moneda)}
             >
@@ -67,6 +68,7 @@ const Formulario = ({ moneda, setMoneda, criptomoneda, setCriptoMoneda, error, s
 
             <Text style={styles.label}>Criptomoneda</Text>
             <Picker
+                style={styles.picker}
                 selectedValue={criptomoneda}
                 onValueChange={cripto => obtenerCriptoMoneda(cripto)}
             >
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontFamily: 'Lato-Black',
         marginVertical: 20,
+        color: '#fff'
     },
     btnCotizar: {
         marginTop: 15,
@@ -102,6 +105,10 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 4,
         backgroundColor: '#5e49e2',
+    },
+    picker: {
+        color: '#fff',
+
     },
     txtCotizar: {
         color: '#fff',
